@@ -170,6 +170,46 @@ class Maze {
         return this.dots.filter(dot => !dot.collected).length;
     }
     
+    drawFish(ctx, x, y) {
+        ctx.save();
+        ctx.translate(x, y);
+        
+        // Fish body (ellipse)
+        ctx.fillStyle = GAME_CONFIG.COLORS.POWER_UP;
+        ctx.beginPath();
+        ctx.ellipse(0, 0, 8, 5, 0, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // Fish tail (triangle)
+        ctx.beginPath();
+        ctx.moveTo(-8, 0);
+        ctx.lineTo(-12, -4);
+        ctx.lineTo(-12, 4);
+        ctx.closePath();
+        ctx.fill();
+        
+        // Fish eye
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.arc(4, -1, 1.5, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // Eye pupil
+        ctx.fillStyle = '#000000';
+        ctx.beginPath();
+        ctx.arc(4, -1, 0.7, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // Add subtle outline
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+        ctx.lineWidth = 0.5;
+        ctx.beginPath();
+        ctx.ellipse(0, 0, 8, 5, 0, 0, Math.PI * 2);
+        ctx.stroke();
+        
+        ctx.restore();
+    }
+    
     draw(ctx) {
         // Draw walls
         ctx.fillStyle = GAME_CONFIG.COLORS.WALL;
@@ -196,13 +236,10 @@ class Maze {
             }
         });
         
-        // Draw power-ups
-        ctx.fillStyle = GAME_CONFIG.COLORS.POWER_UP;
+        // Draw power-ups (fish icons)
         this.powerUps.forEach(powerUp => {
             if (!powerUp.collected) {
-                ctx.beginPath();
-                ctx.arc(powerUp.x, powerUp.y, 6, 0, Math.PI * 2);
-                ctx.fill();
+                this.drawFish(ctx, powerUp.x, powerUp.y);
             }
         });
     }
