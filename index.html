@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cat Man - Escape the Cats!</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="game-container">
+        <header>
+            <h1>🐱 CAT MAN 🐱</h1>
+            <p class="tagline">Escape the Orange Cats!</p>
+        </header>
+        
+        <div class="game-info">
+            <div class="info-item">
+                <span class="label">Score:</span>
+                <span id="score" class="value">0</span>
+            </div>
+            <div class="info-item">
+                <span class="label">Level:</span>
+                <span id="level" class="value">1</span>
+            </div>
+            <div class="info-item">
+                <span class="label">Lives:</span>
+                <span id="lives" class="value">❤️❤️❤️</span>
+            </div>
+        </div>
+
+        <canvas id="gameCanvas"></canvas>
+
+        <div id="gameOverScreen" class="overlay hidden">
+            <div class="overlay-content">
+                <h2>Game Over!</h2>
+                <p>Final Score: <span id="finalScore">0</span></p>
+                <button id="restartButton" class="btn">Play Again</button>
+            </div>
+        </div>
+
+        <div id="levelCompleteScreen" class="overlay hidden">
+            <div class="overlay-content">
+                <h2>Level Complete! 🎉</h2>
+                <p>Score: <span id="levelScore">0</span></p>
+                <button id="nextLevelButton" class="btn">Next Level</button>
+            </div>
+        </div>
+
+        <div id="startScreen" class="overlay">
+            <div class="overlay-content">
+                <h2>Welcome to Cat Man!</h2>
+                <div class="instructions">
+                    <p><strong>How to Play:</strong></p>
+                    <ul>
+                        <li>Use <strong>Arrow Keys</strong> to move</li>
+                        <li>Collect all dots to win</li>
+                        <li>Avoid the <span style="color: #ff6600;">orange cats</span></li>
+                        <li>Collect <strong>power-ups</strong> to turn cats white</li>
+                        <li>Chase white cats for bonus points!</li>
+                    </ul>
+                </div>
+                <button id="startButton" class="btn btn-primary">Start Game</button>
+            </div>
+        </div>
+
+        <div class="controls">
+            <p><strong>Controls:</strong> Arrow Keys to Move</p>
+        </div>
+    </div>
+
+    <!-- Load game modules -->
+    <script src="js/constants.js"></script>
+    <script src="js/maze.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/cat.js"></script>
+    <script src="js/powerup.js"></script>
+    <script src="js/game.js"></script>
+</body>
+</html>
