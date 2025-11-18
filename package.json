@@ -1,0 +1,16 @@
+{
+  "name": "cat-man-game",
+  "version": "1.0.0",
+  "description": "A Pac-Man style game where you escape from orange cats",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["game", "browser", "canvas", "cat-man"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
