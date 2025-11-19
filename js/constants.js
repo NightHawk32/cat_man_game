@@ -32,6 +32,12 @@ const GAME_CONFIG = {
     NUMBER_OF_CATS: 4,
     CAT_RESPAWN_DELAY: 3000,
     
+    // Zoomies feature
+    ZOOMIES_DURATION: 4000, // 4 seconds
+    ZOOMIES_SPEED_MULTIPLIER: 3, // Cats move 3x faster
+    ZOOMIES_CHANCE: 0.003, // 0.3% chance per frame (~every 5-6 seconds at 60fps)
+    ZOOMIES_COOLDOWN: 10000, // 10 seconds before next zoomies can trigger
+    
     // Colors
     COLORS: {
         WALL: '#2222ff',
