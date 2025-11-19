@@ -21,6 +21,8 @@ class Cat {
         this.moveCounter = 0;
         this.aiUpdate = 10; // Update AI every N frames
         this.targetDirection = null; // Store the target direction from pathfinding
+        this.isZoomies = false;
+        this.zoomiesBlinkCounter = 0;
     }
     
     setFrightened(frightened) {
@@ -29,6 +31,22 @@ class Cat {
         this.isFrightened = frightened;
         this.color = frightened ? this.frightenedColor : this.normalColor;
         this.speed = frightened ? this.frightenedSpeed : this.normalSpeed;
+        
+        // Disable zoomies if frightened
+        if (frightened) {
+            this.isZoomies = false;
+        }
+    }
+    
+    setZoomies(active) {
+        if (this.isDead || this.isFrightened) return;
+        
+        this.isZoomies = active;
+        if (active) {
+            this.speed = this.normalSpeed * GAME_CONFIG.ZOOMIES_SPEED_MULTIPLIER;
+        } else {
+            this.speed = this.normalSpeed;
+        }
     }
     
     // Convert world coordinates to grid coordinates
@@ -231,9 +249,11 @@ class Cat {
         this.y = this.startY;
         this.isDead = false;
         this.isFrightened = false;
+        this.isZoomies = false;
         this.color = this.normalColor;
         this.speed = this.normalSpeed;
         this.direction = DIRECTION.LEFT;
+        this.zoomiesBlinkCounter = 0;
     }
     
     reset() {
@@ -242,6 +262,15 @@ class Cat {
     
     draw(ctx) {
         if (this.isDead) return;
+        
+        // Blinking effect during zoomies
+        if (this.isZoomies) {
+            this.zoomiesBlinkCounter++;
+            // Blink every 8 frames (fast blinking)
+            if (this.zoomiesBlinkCounter % 8 < 4) {
+                return; // Skip drawing to create blink effect
+            }
+        }
         
         ctx.save();
         

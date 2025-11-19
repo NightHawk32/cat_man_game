@@ -21,6 +21,11 @@ class Game {
         this.cats = [];
         this.powerUp = new PowerUp();
         
+        // Zoomies feature
+        this.zoomiesActive = false;
+        this.zoomiesStartTime = 0;
+        this.lastZoomiesTime = 0;
+        
         // UI elements
         this.scoreElement = document.getElementById('score');
         this.levelElement = document.getElementById('level');
@@ -180,6 +185,29 @@ class Game {
             this.cats.forEach(cat => cat.setFrightened(false));
         }
         
+        // Zoomies feature - randomly activate when cats are orange (not frightened)
+        const now = Date.now();
+        if (!this.zoomiesActive && !this.powerUp.active) {
+            // Check cooldown
+            if (now - this.lastZoomiesTime > GAME_CONFIG.ZOOMIES_COOLDOWN) {
+                // Random chance to trigger zoomies
+                if (Math.random() < GAME_CONFIG.ZOOMIES_CHANCE) {
+                    this.zoomiesActive = true;
+                    this.zoomiesStartTime = now;
+                    this.cats.forEach(cat => cat.setZoomies(true));
+                }
+            }
+        }
+        
+        // Update zoomies
+        if (this.zoomiesActive) {
+            if (now - this.zoomiesStartTime >= GAME_CONFIG.ZOOMIES_DURATION) {
+                this.zoomiesActive = false;
+                this.lastZoomiesTime = now;
+                this.cats.forEach(cat => cat.setZoomies(false));
+            }
+        }
+        
         // Update cats
         this.cats.forEach(cat => {
             cat.update(this.player);
@@ -226,6 +254,18 @@ class Game {
             this.ctx.fillStyle = '#fff';
             this.ctx.font = 'bold 16px Arial';
             this.ctx.fillText(`Power-up: ${remaining}s`, 10, 20);
+        }
+        
+        // Draw zoomies indicator
+        if (this.zoomiesActive) {
+            const remaining = Math.ceil((GAME_CONFIG.ZOOMIES_DURATION - (Date.now() - this.zoomiesStartTime)) / 1000);
+            this.ctx.fillStyle = '#ff6600';
+            this.ctx.font = 'bold 24px Arial';
+            this.ctx.textAlign = 'center';
+            this.ctx.fillText('🐱 ZOOMIES! 🐱', this.canvas.width / 2, 40);
+            this.ctx.font = 'bold 16px Arial';
+            this.ctx.fillText(`${remaining}s`, this.canvas.width / 2, 60);
+            this.ctx.textAlign = 'left';
         }
     }
     
